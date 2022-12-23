@@ -22,3 +22,6 @@ jobs:
 
       - name: Build Docker Image
         run: docker build -t $GITHUB_SHA:latest .
+
+      - name: Echo
+        run: echo $GITHUB_SHA
