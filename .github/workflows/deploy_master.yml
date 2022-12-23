@@ -1,5 +1,5 @@
 ---
-name: Build and Push Python Image to Google Cloud Platfor
+name: Build and Push App Image to Google Cloud Artifact Registry 
 on:
   push:
     branches:
@@ -9,14 +9,12 @@ jobs:
     name: Build and Push to GCP
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: test
+      IMAGE_NAME: linux_tweet_app
       PROJECT_ID: linux-app-astrafy
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Set up Python 3.8
-        run:
-          echo '${{ secrets.SERVICE_ACCOUNT_KEY }}'
+
       - uses: google-github-actions/auth@v1
         with:
           credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
@@ -31,8 +29,8 @@ jobs:
 
       - name: Tag Docker Image to Artifact Registry
         run: |-
-          docker tag toto:latest europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/toto:latest
+          docker tag toto:latest europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/$IMAGE_NAME:latest
       
       - name: Push Docker Image to Artifact Registry
         run: |-
-          docker push europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/toto:latest
+          docker push europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/$IMAGE_NAME:latest
