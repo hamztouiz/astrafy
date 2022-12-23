@@ -1,5 +1,5 @@
 ---
-name: Build and Push Python Image to Google Cloud Platfor
+name: Build Image when PR is opened
 on:
   pull_request:
     types:
@@ -11,7 +11,6 @@ jobs:
     name: Build and Push to GCP
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: test
       PROJECT_ID: linux-app-astrafy
     steps:
       - name: Checkout
@@ -20,6 +19,6 @@ jobs:
       - uses: google-github-actions/auth@v1
         with:
           credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
-
+          
       - name: Build Docker Image
-        run: docker build -t MR:latest .
+        run: docker build -t $GITHUB_SHA:latest .
