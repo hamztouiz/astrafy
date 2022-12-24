@@ -1,5 +1,5 @@
 ---
-name: Build Image when PR is opened
+name: Build Image and deploy on Tag
 on:
   push:
     branches:
