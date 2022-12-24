@@ -23,3 +23,15 @@ jobs:
       - name: Build Docker Image
         run: docker build -t $GITHUB_REF:latest .
 
+      - name: Configure Docker Client
+        run: |-
+          gcloud auth configure-docker --quiet
+          gcloud auth configure-docker europe-west2-docker.pkg.dev --quiet
+
+      - name: Tag Docker Image to Artifact Registry
+        run: |-
+          docker tag $GITHUB_REF:latest europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/$GITHUB_REF:latest
+      
+      - name: Push Docker Image to Artifact Registry
+        run: |-
+          docker push europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/$GITHUB_REF:latest

@@ -20,7 +20,7 @@ jobs:
           credentials_json: '${{ secrets.SERVICE_ACCOUNT_KEY }}'
 
       - name: Build Docker Image
-        run: docker build -t toto:latest .
+        run: docker build -t $IMAGE_NAME:latest .
 
       - name: Configure Docker Client
         run: |-
@@ -29,7 +29,7 @@ jobs:
 
       - name: Tag Docker Image to Artifact Registry
         run: |-
-          docker tag toto:latest europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/$IMAGE_NAME:latest
+          docker tag $IMAGE_NAME:latest europe-west2-docker.pkg.dev/linux-app-astrafy/linux-app/$IMAGE_NAME:latest
       
       - name: Push Docker Image to Artifact Registry
         run: |-
